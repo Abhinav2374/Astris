@@ -26,6 +26,21 @@ client.once("ready", () => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
+  if (
+    bannedWords.some((word) => message.content.toLowerCase().includes(word))
+  ) {
+    try {
+      await message.author.send(
+        `🚨 your msg was deleted from **#${message.channel.name}** because it contained offensive words`
+      );
+      await message.delete();
+      return;
+    } catch (error) {
+      console.log("failed to delete message", error);
+    }
+  }
+
+  if (message.channelId !== process.env.CHANNEL_ID) return;
   const userInput = message.content.trim();
   try {
     const response = await axios.post(
@@ -51,17 +66,6 @@ client.on("messageCreate", async (message) => {
   } catch (error) {
     console.error("Error with Groq api", error);
     message.reply("Oops! something went wrong");
-  }
-
-  if (bannedWords.some((word) => msg.content.toLowerCase().includes(word))) {
-    try {
-      await msg.author.send(
-        `🚨 your msg was deleted from **#${msg.channel.name}** because it contained offensive words`
-      );
-      await msg.delete();
-    } catch (error) {
-      console.log("failed to delete message", error);
-    }
   }
 });
 
