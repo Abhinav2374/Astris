@@ -10,6 +10,8 @@ const client = new Client({
   ],
 });
 
+const conversationHistory = new Map();
+
 function splitMessage(text, maxLength = 2000) {
   const chunks = [];
   for (let i = 0; i < text.length; i += maxLength) {
@@ -41,13 +43,24 @@ client.on("messageCreate", async (message) => {
   }
 
   if (message.channelId !== process.env.CHANNEL_ID) return;
+  const userId = message.author.id;
   const userInput = message.content.trim();
+
+  if (!conversationHistory.has(userId)) {
+    conversationHistory.set(userId, []);
+  }
+
+  const userHistory = conversationHistory.get(userId);
+  userHistory.push({ role: "user", content: userInput });
+
+  if (userHistory.length > 10) userHistory.shift();
+
   try {
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
         model: "llama3-8b-8192",
-        messages: [{ role: "user", content: userInput }],
+        messages: userHistory,
       },
       {
         headers: {
@@ -59,6 +72,8 @@ client.on("messageCreate", async (message) => {
     const botReply =
       response.data.choices?.[0]?.message?.content ||
       "Sorry but i couldnt generate an answer for this.";
+
+    userHistory.push({ role: "assistant", content: botReply });
     const reply = splitMessage(botReply);
     for (const replies of reply) {
       await message.reply(replies);
