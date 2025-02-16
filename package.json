@@ -4,17 +4,20 @@
   "description": "An ai integrated discord chatbot",
   "main": "./src/bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon bot.js"
+    "start": "node .",
+    "dev": "nodemon bot.js",
+    "test": "eslint ."
   },
   "author": "Abhinav",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "eslint": "^9.20.1",
+    "globals": "^15.15.0",
     "nodemon": "^3.1.9"
   }
 }
