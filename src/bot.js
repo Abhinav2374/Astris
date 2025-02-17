@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const axios = require("axios");
+const {personalityPrompt} = require("./prompt")
 
 const client = new Client({
   intents: [
@@ -53,6 +54,8 @@ client.on("messageCreate", async (message) => {
   const userHistory = conversationHistory.get(userId);
   userHistory.push({ role: "user", content: userInput });
 
+  const messagesToSend = [personalityPrompt, ...userHistory];
+
   if (userHistory.length > 10) userHistory.shift();
 
   try {
@@ -60,7 +63,7 @@ client.on("messageCreate", async (message) => {
       "https://api.groq.com/openai/v1/chat/completions",
       {
         model: "llama3-8b-8192",
-        messages: userHistory,
+        messages: messagesToSend ,
       },
       {
         headers: {
