@@ -18,3 +18,4 @@ services:
       - REPO_USER=fowl1029
       - REPO_PASS=${REPO_PASS}
     command: --interval 5
+    restart : always
