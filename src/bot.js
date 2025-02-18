@@ -2,6 +2,7 @@ require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const axios = require("axios");
 const {personalityPrompt} = require("./prompt")
+const {startBattle, attackPlayer} = require("./game/battleGame")
 
 const client = new Client({
   intents: [
@@ -46,6 +47,12 @@ client.on("messageCreate", async (message) => {
   if (message.channelId !== process.env.CHANNEL_ID) return;
   const userId = message.author.id;
   const userInput = message.content.trim();
+
+  if(userInput.content.toLowerCase()==="!battle"){
+    startBattle(message.channel);
+  }else if(userInput.content.toLowerCase()==="attack"){
+    attackPlayer(message.author);
+  }
 
   if (!conversationHistory.has(userId)) {
     conversationHistory.set(userId, []);
