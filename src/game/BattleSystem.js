@@ -7,7 +7,7 @@ class Battle {
         this.start();
     }
     async start(){
-        await this.channel.send(`⚔️ A wild **${this.enemy.name} appeared ! Type **attack** to fight`);
+        await this.channel.send(`⚔️ A wild **${this.enemy.name}** appeared ! Type **attack** to fight`);
         this.enemyAttackLoop();
     }
 
@@ -38,9 +38,10 @@ class Battle {
     enemyAttack(){
         if (this.players.size === 0) return;
         const playerIds = [...this.players.keys()];
-        const targetId = player.playerIds[Math.floor(Math.random* playerIds.length)];
+        const targetId = playerIds[Math.floor(Math.random()* playerIds.length)];
         const player = this.players.get(targetId);
-        const damage = Math.max(this.enemy,attack - 3, 1);
+        const damage = Math.max(this.enemy.attack - 3, 1);
+        player.health -= damage;
 
         this.channel.send(`🔥 **${this.enemy.name}** attacked **<@${targetId}>** for **${damage}** damage! Player health: ${player.health}`)
 

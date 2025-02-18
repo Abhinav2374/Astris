@@ -48,10 +48,12 @@ client.on("messageCreate", async (message) => {
   const userId = message.author.id;
   const userInput = message.content.trim();
 
-  if(userInput.content.toLowerCase()==="!battle"){
+  if(userInput.toLowerCase()==="!battle"){
     startBattle(message.channel);
-  }else if(userInput.content.toLowerCase()==="attack"){
+    return;
+  }else if(userInput.toLowerCase()==="attack"){
     attackPlayer(message.author);
+    return;
   }
 
   if (!conversationHistory.has(userId)) {
