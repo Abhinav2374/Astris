@@ -20,11 +20,12 @@ class Battle {
         const player = this.players.get(user.id);
         const damage = Math.max(player.attack - this.enemy.defense, 1);
         this.enemy.health -= damage;
-        this.channel.send(`💥 **${user.username}** attacked **${this.enemy.name}** for **${damage}** damage! Enemy health : **${this.enemy.health}**`);
 
         if(this.enemy.health < 0){
             this.channel.send(`🎉 **${this.enemy.name}** has been defeated`);
             this.active = false;
+        }else{
+            this.channel.send(`💥 **${user.username}** attacked **${this.enemy.name}** for **${damage}** damage! Enemy health : **${this.enemy.health}**`);
         }
     }
 
