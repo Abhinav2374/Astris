@@ -1,9 +1,10 @@
 class Battle {
-    constructor(channel,enemy){
+    constructor(channel,enemy,endBattleCallback){
         this.channel = channel;
         this.enemy = {...enemy};
         this.players = new Map();
         this.active = true;
+        this.endBattleCallback = endBattleCallback;
         this.start();
     }
     async start(){
@@ -23,7 +24,10 @@ class Battle {
 
         if(this.enemy.health < 0){
             this.channel.send(`🎉 **${this.enemy.name}** has been defeated`);
-            this.active = false;
+            this.active = false;;
+            if (this.endBattleCallback) {
+                this.endBattleCallback();
+            }
         }else{
             this.channel.send(`💥 **${user.username}** attacked **${this.enemy.name}** for **${damage}** damage! Enemy health : **${this.enemy.health}**`);
         }
@@ -52,6 +56,9 @@ class Battle {
             if(this.players.size === 0) {
                 this.channel.send(`☠️ The **${this.enemy.name}** has won!`);
                 this.active = false;
+                if (this.endBattleCallback) {
+                    this.endBattleCallback();
+                }
             }
         }
 

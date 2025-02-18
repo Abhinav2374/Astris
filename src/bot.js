@@ -55,7 +55,7 @@ client.on("messageCreate", async (message) => {
     attackPlayer(message.author);
     return;
   }else if(userInput.toLowerCase()==="!quitbattle") {
-    quitBattle()
+    quitBattle(message.channel);
     return;
   }
   

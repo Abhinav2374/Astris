@@ -9,7 +9,9 @@ function startBattle(channel) {
         return;
     }
     const enemy = getRandomEnemy();
-    activeBattle = new Battle(channel, enemy);
+    activeBattle = new Battle(channel, enemy, ()=>{
+        activeBattle = null;
+    });
 }
 
 function attackPlayer(user) {
@@ -18,7 +20,7 @@ function attackPlayer(user) {
     }
 }
 
-function quitBattle() {
+function quitBattle(channel) {
     activeBattle = null;
     channel.send(`⚠️ Battle ended`);
 }
