@@ -1,5 +1,3 @@
-let ActiveBattle = false;
-
 const enemies = [
     {name: "Goblin", health: 50, attack: 5, defense: 2, speed: 5000,description : "A small but vicious creature that lurks in the shadows."},
     {name: "Orge", health: 90, attack: 8, defense: 4, speed: 4000, description: "A brute warrior with immense strength and little patience."},
@@ -8,3 +6,9 @@ const enemies = [
     {name: "Dragon", health: 150, attack: 13, defense: 8, speed: 2000}
 
 ];
+
+function getRandomEnemy() {
+    return enemies[Math.floor(Math.random()*enemies.length)];
+}
+
+module.exports = {getRandomEnemy};
