@@ -18,4 +18,9 @@ function attackPlayer(user) {
     }
 }
 
-module.exports = {startBattle,attackPlayer};
+function quitBattle() {
+    activeBattle = null;
+    channel.send(`⚠️ Battle ended`);
+}
+
+module.exports = {startBattle,attackPlayer,quitBattle};
