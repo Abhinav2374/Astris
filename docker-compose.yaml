@@ -17,5 +17,5 @@ services:
     environment:
       - REPO_USER=fowl1029
       - REPO_PASS=${REPO_PASS}
-    command: --interval 5
+    command: --interval 30
     restart : always
