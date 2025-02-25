@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { REST,Routes, SlashCommandBuilder, version } = require('discord.js');
+const { REST,Routes, SlashCommandBuilder} = require('discord.js');
 
 const commands = [
     new SlashCommandBuilder().setName('ping').setDescription('replies with pong').toJSON(),
