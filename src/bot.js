@@ -28,6 +28,14 @@ client.once("ready", () => {
   console.log(`logged in as ${client.user.tag}`);
 });
 
+client.on('interactionCreate',async interaction =>{
+  if(!interaction.isCommand()) return;
+  const {commandName} = interaction;
+  if(commandName === "ping") {
+    await interaction.reply("pong! 🏓");
+  }
+})
+
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
   if (
@@ -74,7 +82,7 @@ client.on("messageCreate", async (message) => {
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "llama3-8b-8192",
+        model: "mixtral-8x7b-32768",
         messages: messagesToSend ,
       },
       {
