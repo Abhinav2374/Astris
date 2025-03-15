@@ -2,7 +2,8 @@ require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const axios = require("axios");
 const {personalityPrompt} = require("./prompt")
-const {startBattle, attackPlayer,quitBattle} = require("./game/battleGame")
+const {startBattle, attackPlayer,quitBattle} = require("./game/battleGame");
+const { ping } = require("./commands/ping");
 
 const client = new Client({
   intents: [
@@ -32,7 +33,7 @@ client.on('interactionCreate',async interaction =>{
   if(!interaction.isCommand()) return;
   const {commandName} = interaction;
   if(commandName === "ping") {
-    await interaction.reply("pong! 🏓");
+    ping();
   }
 })
 
@@ -82,12 +83,12 @@ client.on("messageCreate", async (message) => {
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "mixtral-8x7b-32768",
+        model: "llama3-8b-8192",
         messages: messagesToSend ,
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.GORQ_API}`,
+          Authorization: `Bearer ${process.env.GROQ_API}`,
           "Content-Type": "application/json",
         },
       }
