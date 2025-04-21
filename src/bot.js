@@ -53,7 +53,7 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  if (message.channelId !== process.env.CHANNEL_ID ||message.channelId !== 1363818175128670209 ) return;
+  if (message.channelId !== process.env.CHANNEL_ID ||message.channelId !== "1363818175128670209" ) return;
   const userId = message.author.id;
   const userInput = message.content.trim();
 
