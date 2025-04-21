@@ -1,4 +1,4 @@
-async function ping() {
+async function ping(interaction) {
     await interaction.reply("pong! 🏓");
 }
 
