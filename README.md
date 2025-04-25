@@ -40,11 +40,11 @@ Astris is an AI-integrated chatbot for Discord, powered by the Groq API and Goog
 ## Usage
 To start the bot:
 
--For **production**(stable run):
+-For **production** (stable run):
 ```sh
 npm start
 ```
-For **development** (with live reload if using nodemon):
+For **development** (with live reload using nodemon):
 ```sh
 npm run dev
 ```
