@@ -68,7 +68,7 @@ npm run dev
 Feel free to fork and contribute! Create a pull request with a detailed description of your changes.
 
 ## Contact
-For issues or suggestions, open a GitHub issue or reach out on Discord: `abhinav_2374`.
+For issues or suggestions, open a GitHub issue or reach out on [Discord](https://discord.com/users/1242475808551866400).
 
 ## License
 This project is released under the [MIT License](LICENSE), making it free for personal and commercial use.
