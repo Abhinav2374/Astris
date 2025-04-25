@@ -1,8 +1,8 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
 const axios = require("axios");
-const {personalityPrompt} = require("./prompt")
-const {startBattle, attackPlayer,quitBattle} = require("./game/battleGame");
+const { personalityPrompt } = require("./prompt");
+const { startBattle, attackPlayer, quitBattle } = require("./game/battleGame");
 const { ping } = require("./commands/ping");
 
 const client = new Client({
@@ -29,13 +29,13 @@ client.once("ready", () => {
   console.log(`logged in as ${client.user.tag}`);
 });
 
-client.on('interactionCreate',async interaction =>{
-  if(!interaction.isCommand()) return;
-  const {commandName} = interaction;
-  if(commandName === "ping") {
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return;
+  const { commandName } = interaction;
+  if (commandName === "ping") {
     ping();
   }
-})
+});
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
@@ -53,21 +53,25 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  if (message.channelId !== process.env.CHANNEL_ID && message.channelId !== "1363818175128670209" ) return;
+  if (
+    message.channelId !== process.env.CHANNEL_ID &&
+    message.channelId !== "1363818175128670209"
+  )
+    return;
   const userId = message.author.id;
   const userInput = message.content.trim();
 
-  if(userInput.toLowerCase()==="!battle"){
+  if (userInput.toLowerCase() === "!battle") {
     startBattle(message.channel);
     return;
-  }else if(userInput.toLowerCase()==="attack"){
+  } else if (userInput.toLowerCase() === "attack") {
     attackPlayer(message.author);
     return;
-  }else if(userInput.toLowerCase()==="!quitbattle") {
+  } else if (userInput.toLowerCase() === "!quitbattle") {
     quitBattle(message.channel);
     return;
   }
-  
+
   if (!conversationHistory.has(userId)) {
     conversationHistory.set(userId, []);
   }
@@ -83,8 +87,8 @@ client.on("messageCreate", async (message) => {
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "llama3-8b-8192",
-        messages: messagesToSend ,
+        model: "gemma2-9b-it",
+        messages: messagesToSend,
       },
       {
         headers: {

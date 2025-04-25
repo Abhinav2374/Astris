@@ -3,8 +3,6 @@ const { REST,Routes, SlashCommandBuilder} = require('discord.js');
 
 const commands = [
     new SlashCommandBuilder().setName('ping').setDescription('replies with pong').toJSON(),
-    new SlashCommandBuilder().setName('vault-store').setDescription('saves your passwords in a secret vault').toJSON(),
-    new SlashCommandBuilder().setName('vault-fetch').setDescription('fetch the items saved in the vault').toJSON(),
 ]
 
 const rest = new REST({version:10}).setToken(process.env.DISCORD_TOKEN)
