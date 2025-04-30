@@ -1,5 +1,5 @@
 async function ping(interaction) {
-    await interaction.reply("pong! 🏓");
+  await interaction.reply("pong! 🏓");
 }
 
-module.exports = {ping}
+module.exports = { ping };

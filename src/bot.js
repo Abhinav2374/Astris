@@ -34,7 +34,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
   const { commandName } = interaction;
   if (commandName === "ping") {
-    ping();
+    ping(interaction);
   }
 
   if (commandName === "clearhistory") {
@@ -44,6 +44,8 @@ client.on("interactionCreate", async (interaction) => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
+
+  console.log(bannedWords);
 
   // Delete and message the user about a offensive message being deleted.
   if (
