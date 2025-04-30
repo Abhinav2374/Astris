@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, escapeBold } = require("discord.js");
+const { Client, GatewayIntentBits } = require("discord.js");
 
 const { personalityPrompt } = require("./prompt");
 const { startBattle, attackPlayer, quitBattle } = require("./game/battleGame");
@@ -85,7 +85,7 @@ client.on("messageCreate", async (message) => {
 
   const messagesToSend = [personalityPrompt, ...userHistory];
 
-  if (userHistory.length > config.messageMemory || 20) userHistory.shift();
+  if (userHistory.length > config.messageMemory) userHistory.shift();
 
   try {
     const botReply = await generateResponse(messagesToSend);
