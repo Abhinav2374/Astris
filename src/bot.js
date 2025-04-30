@@ -45,8 +45,6 @@ client.on("interactionCreate", async (interaction) => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  console.log(bannedWords);
-
   // Delete and message the user about a offensive message being deleted.
   if (
     bannedWords.some((word) => message.content.toLowerCase().includes(word))

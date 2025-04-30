@@ -5,9 +5,9 @@ services:
     restart: always
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - GORQ_API=${GORQ_API}
+      - GROQ_API=${GORQ_API}
       - CHANNEL_ID=${CHANNEL_ID}
-      
+
   watchtower:
     container_name: astris-watchtower
     image: containrrr/watchtower
@@ -18,4 +18,4 @@ services:
       - REPO_USER=fowl1029
       - REPO_PASS=${REPO_PASS}
     command: --interval 30
-    restart : always
+    restart: always
