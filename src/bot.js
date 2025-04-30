@@ -1,18 +1,9 @@
 require("dotenv").config();
 const { Client, GatewayIntentBits } = require("discord.js");
-
+const axios = require("axios");
 const { personalityPrompt } = require("./prompt");
 const { startBattle, attackPlayer, quitBattle } = require("./game/battleGame");
 const { ping } = require("./commands/ping");
-const clearHistory = require("./commands/clearhistory");
-
-const config = require("../config.json");
-
-const generateResponse = require("./utils/groq");
-const splitMessage = require("./utils/splitMessages");
-
-if (!process.env.DISCORD_TOKEN || !process.env.GROQ_API)
-  throw new Error("Environment variables are not provided.");
 
 const client = new Client({
   intents: [
@@ -24,7 +15,15 @@ const client = new Client({
 
 const conversationHistory = new Map();
 
-const bannedWords = config.offensiveWords;
+function splitMessage(text, maxLength = 2000) {
+  const chunks = [];
+  for (let i = 0; i < text.length; i += maxLength) {
+    chunks.push(text.slice(i, i + maxLength));
+  }
+  return chunks;
+}
+
+const bannedWords = ["nigg"];
 
 client.once("ready", () => {
   console.log(`logged in as ${client.user.tag}`);
@@ -36,16 +35,10 @@ client.on("interactionCreate", async (interaction) => {
   if (commandName === "ping") {
     ping();
   }
-
-  if (commandName === "clearhistory") {
-    clearHistory(interaction, conversationHistory);
-  }
 });
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-
-  // Delete and message the user about a offensive message being deleted.
   if (
     bannedWords.some((word) => message.content.toLowerCase().includes(word))
   ) {
@@ -60,8 +53,11 @@ client.on("messageCreate", async (message) => {
     }
   }
 
-  if (!config.channelId.includes(message.channelId)) return;
-
+  if (
+    message.channelId !== process.env.CHANNEL_ID &&
+    message.channelId !== "1363818175128670209"
+  )
+    return;
   const userId = message.author.id;
   const userInput = message.content.trim();
 
@@ -85,19 +81,34 @@ client.on("messageCreate", async (message) => {
 
   const messagesToSend = [personalityPrompt, ...userHistory];
 
-  if (userHistory.length > config.messageMemory) userHistory.shift();
+  if (userHistory.length > 10) userHistory.shift();
 
   try {
-    const botReply = await generateResponse(messagesToSend);
+    const response = await axios.post(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        model: "gemma2-9b-it",
+        messages: messagesToSend,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GROQ_API}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const botReply =
+      response.data.choices?.[0]?.message?.content ||
+      "Sorry but i couldnt generate an answer for this.";
 
     userHistory.push({ role: "assistant", content: botReply });
     const reply = splitMessage(botReply);
     for (const replies of reply) {
       await message.reply(replies);
     }
-  } catch (err) {
-    console.error("Failed to generate response by GROQ: ", err);
-    message.reply("Failed to generate response.");
+  } catch (error) {
+    console.error("Error with Groq api", error);
+    message.reply("Oops! something went wrong");
   }
 });
 
