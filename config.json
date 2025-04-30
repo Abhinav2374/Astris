@@ -1,0 +1,6 @@
+{
+  "offensiveWords": ["fuck", "shit"],
+  "channelId": ["1338560078470578197", "1363818175128670209"],
+  "guildId": "1363031906106474627",
+  "messageMemory": 20
+}
