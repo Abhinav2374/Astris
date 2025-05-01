@@ -5,17 +5,17 @@ services:
     restart: always
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - GROQ_API=${GORQ_API}
-      - CHANNEL_ID=${CHANNEL_ID}
+      - GROQ_API=${GROQ_API}
+    volumes:
+      - ./config.json:/app/config.json
 
   watchtower:
     container_name: astris-watchtower
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /root/.docker/config.json:/config.json
     environment:
       - REPO_USER=fowl1029
       - REPO_PASS=${REPO_PASS}
-    command: --interval 30
+    command: --interval 60
     restart: always
