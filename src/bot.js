@@ -25,8 +25,6 @@ const client = new Client({
 
 const conversationHistory = new Map();
 
-const bannedWords = config.offensiveWords;
-
 client.once("ready", () => {
   console.log(`logged in as ${client.user.tag}`);
 });
