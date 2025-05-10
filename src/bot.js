@@ -10,6 +10,7 @@ const config = require("../config.json");
 
 const generateResponse = require("./utils/groq");
 const splitMessage = require("./utils/splitMessages");
+const checkBannedWordsAndDelete = require("./utils/checkBannedWordsAndDelete");
 
 if (!process.env.DISCORD_TOKEN || !process.env.GROQ_API)
   throw new Error("Environment variables are not provided.");
@@ -42,23 +43,16 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
+client.on("messageUpdate", async (_, newMessage) => {
+  if (newMessage.author.bot) return;
+
+  checkBannedWordsAndDelete(newMessage);
+});
+
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  // Delete and message the user about a offensive message being deleted.
-  if (
-    bannedWords.some((word) => message.content.toLowerCase().includes(word))
-  ) {
-    try {
-      await message.author.send(
-        `🚨 your msg was deleted from **#${message.channel.name}** because it contained offensive words`
-      );
-      await message.delete();
-      return;
-    } catch (error) {
-      console.log("failed to delete message", error);
-    }
-  }
+  checkBannedWordsAndDelete(message);
 
   if (!config.channelId.includes(message.channelId)) return;
 
