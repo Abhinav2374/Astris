@@ -5,6 +5,8 @@ const { personalityPrompt } = require("./prompt");
 const { startBattle, attackPlayer, quitBattle } = require("./game/battleGame");
 const { ping } = require("./commands/ping");
 const clearHistory = require("./commands/clearhistory");
+const { afk } = require("./afk/afk");
+const { afkCheck } = require("./afk/afkReply");
 
 const config = require("../config.json");
 
@@ -39,6 +41,11 @@ client.on("interactionCreate", async (interaction) => {
   if (commandName === "clearhistory") {
     clearHistory(interaction, conversationHistory);
   }
+
+  if (commandName === "afk") {
+    const reason = interaction.options.getString("reason") || "I'm AFK";
+    await afk(interaction, reason);
+  }
 });
 
 client.on("messageUpdate", async (_, newMessage) => {
@@ -49,7 +56,7 @@ client.on("messageUpdate", async (_, newMessage) => {
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
-
+  afkCheck(message);
   checkBannedWordsAndDelete(message);
 
   if (!config.channelId.includes(message.channelId)) return;
