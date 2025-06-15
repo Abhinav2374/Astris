@@ -13,6 +13,16 @@ const commands = [
     .setName("clearhistory")
     .setDescription("Clears your chat history with Astris")
     .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("afk")
+    .setDescription("set your status as afk")
+    .addStringOption((Option) =>
+      Option.setName("reason")
+        .setDescription("reason for afk")
+        .setRequired(false)
+    )
+    .toJSON(),
 ];
 
 const rest = new REST({ version: 10 }).setToken(process.env.DISCORD_TOKEN);
