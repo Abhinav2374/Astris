@@ -35,7 +35,7 @@ if ((!rest, !clientId, !guildId)) {
 (async () => {
   try {
     console.log("Refreshing slash commands...");
-    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+    await rest.put(Routes.applicationCommands(clientId), {
       body: commands,
     });
     console.log("slash commands registered succesfully");
