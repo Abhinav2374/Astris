@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const endpoint = "https://api.groq.com/openai/v1";
-const model = "gemma2-9b-it";
+const model = "llama-3.1-8b-instant";
 
 async function generateResponse(messages) {
   const response = await axios.post(

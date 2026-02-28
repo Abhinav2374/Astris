@@ -27,7 +27,7 @@ const client = new Client({
 
 const conversationHistory = new Map();
 
-client.once("ready", () => {
+client.once("clientReady", () => {
   console.log(`logged in as ${client.user.tag}`);
 });
 
