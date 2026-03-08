@@ -7,6 +7,7 @@ const { ping } = require("./commands/ping");
 const clearHistory = require("./commands/clearhistory");
 const { afk } = require("./afk/afk");
 const { afkCheck } = require("./afk/afkReply");
+require("./hosting");
 
 const config = require("../config.json");
 
