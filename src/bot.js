@@ -7,6 +7,8 @@ const { ping } = require("./commands/ping");
 const clearHistory = require("./commands/clearhistory");
 const { afk } = require("./afk/afk");
 const { afkCheck } = require("./afk/afkReply");
+const {setChannel} = require("./commands/setChannel");
+const {removeChannel} = require("./commands/removeChannel")
 require("./utils/hosting");
 
 const config = require("../config.json");
@@ -46,6 +48,16 @@ client.on("interactionCreate", async (interaction) => {
   if (commandName === "afk") {
     const reason = interaction.options.getString("reason") || "I'm AFK";
     await afk(interaction, reason);
+  }
+
+  if (commandName === "add-channel"){
+    const channel = interaction.options.getChannel("channel-id");
+    await setChannel(interaction,channelId);
+  }
+
+  if (commandName === "remove-channel"){
+    const delchannelId = interaction.options.getChannel("channel");
+    await removeChannel(interaction,delchannelId);
   }
 });
 

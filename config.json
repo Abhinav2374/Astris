@@ -1,5 +1,7 @@
 {
-  "offensiveWords": ["fuck"],
+  "offensiveWords": [
+    "fuck"
+  ],
   "channelId": [
     "1338560078470578197",
     "1363818175128670209",

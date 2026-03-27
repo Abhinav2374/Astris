@@ -23,6 +23,26 @@ const commands = [
         .setRequired(false)
     )
     .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("add-channel")
+    .setDescription("Add the channel in which you want astris to chat")
+    .addChannelOption((Option)=>
+      Option.setName("channel-id")
+      .setDescription("the channel")
+      .setRequired(true)
+    )
+    .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("remove-channel")
+    .setDescription("Remove astris from a channel")
+    .addChannelOption((Option)=>
+      Option.setName("channel")
+      .setDescription("the channel")
+      .setRequired(true)
+    )
+    .toJSON(),
 ];
 
 const rest = new REST({ version: 10 }).setToken(process.env.DISCORD_TOKEN);
